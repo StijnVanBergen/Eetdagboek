@@ -1,0 +1,17 @@
+- Input van maaltijden (10)
+- Zoekfunctie (9)
+- Statistieken (6)
+- Inloggen (3)
+
+SPRINT 1
+-- Input van maaltijden --
+
+- Frontend (Angular)
+-- Elke maaltijd oneindig veel inputs
+-- Keuzemenu voor gevoel
+-- Dag + Datum bovenaan
+
+- Backend (WebAPI + MongoDB)
+-- API's voor aansturing frontend
+-- Connectie met MongoDB
+-- ERD
