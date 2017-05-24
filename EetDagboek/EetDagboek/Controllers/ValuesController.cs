@@ -6,11 +6,38 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Threading.Tasks;
+using System.Web.Http.Cors;
 
 namespace EetDagboek.Controllers
 {
-    public class ValuesController : ApiController
+    [EnableCors(origins: "*", headers: "*", methods:"GET, POST")]
+    public class EetDagboekController : ApiController
     {
 
+
+        ModelRepo db = new ModelRepo();
+
+        [HttpGet]
+        public async Task<List<Dag>> GetAllDays()
+        {
+            return await db.GetAllDays();
+        }
+
+        public string Get(int id)
+        {
+            return "value";
+        }
+
+        public void Post([FromBody]string value)
+        {
+        }
+
+        public void Put(int id, [FromBody]string value)
+        {
+        }
+
+        public void Delete(int id)
+        {
+        }
     }
 }

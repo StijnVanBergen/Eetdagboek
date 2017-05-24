@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,34 +9,41 @@ namespace EetDagboek.Models
 {
     public class ModelRepo : IModelRepo
     {
-        public Task AddDag(Dag dag)
+        private readonly DataAccess _context = null;
+
+        public ModelRepo()
         {
-            throw new NotImplementedException();
+            _context = new DataAccess();
         }
 
-        public Task AddMaaltijd(Maaltijd maaltijd)
+        public async Task AddDag(Dag dag)
         {
-            throw new NotImplementedException();
+            await _context.Dag.InsertOneAsync(dag);
         }
 
-        public Task<List<Dag>> GetAllDays()
+        public async Task AddMaaltijd(Maaltijd maaltijd)
         {
-            throw new NotImplementedException();
+            await _context.Maaltijd.InsertOneAsync(maaltijd);
         }
 
-        public Task<Maaltijd> GetMaaltijdByDay(DateTime day)
+        public async Task<List<Dag>> GetAllDays()
         {
-            throw new NotImplementedException();
+            return await _context.Dag.Find(_ => true).ToListAsync();
         }
 
-        public Task<Maaltijd> GetMaaltijdenByID(int DagID)
+        public async Task<Maaltijd> GetMaaltijdByDay(DateTime day)
         {
-            throw new NotImplementedException();
+            return await _context.Maaltijd.Find(x => x.Dag.Datum == day).FirstOrDefaultAsync();
         }
 
-        public Task<Dag> GetOneDay()
+        public async Task<Maaltijd> GetMaaltijdenByID(int DagID)
         {
-            throw new NotImplementedException();
+            return await _context.Maaltijd.Find(x => x.ID == DagID).FirstOrDefaultAsync();
+        }
+
+        public async Task<Dag> GetOneDay(DateTime dag)
+        {
+            return await _context.Dag.Find(x => x.Datum == dag).FirstOrDefaultAsync();
         }
     }
 }

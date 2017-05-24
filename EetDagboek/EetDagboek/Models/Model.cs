@@ -28,5 +28,7 @@ namespace EetDagboek.Models
         public int ID { get; set; }
 
         public List<string> Voedsel { get; set; }
+
+        public Dag Dag { get; set; }
     }
 }
