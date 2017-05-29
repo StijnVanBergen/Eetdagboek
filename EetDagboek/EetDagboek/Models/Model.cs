@@ -27,6 +27,10 @@ namespace EetDagboek.Models
         [BsonId]
         public int ID { get; set; }
 
+        [BsonElement("Titel")]
+        public string Titel { get; set; }
+
+        [BsonElement("Voedsel")]
         public List<string> Voedsel { get; set; }
 
         public Dag Dag { get; set; }
