@@ -26,9 +26,9 @@ namespace EetDagboek.Controllers
             return "value";
         }
 
-        public void Post([FromBody]object value)
+        public async void PostMaaltijd([FromBody]object value)
         {
-            var newDay = new Dag();
+            await db.AddMaaltijd((Maaltijd)value);
         }
 
         public void Put(int id, [FromBody]string value)
