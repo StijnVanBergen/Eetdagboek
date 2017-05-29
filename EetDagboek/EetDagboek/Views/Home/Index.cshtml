@@ -1,24 +1,187 @@
-﻿<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS, and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>ASP.NET Web API is a framework that makes it easy to build HTTP services that reach
-        a broad range of clients, including browsers and mobile devices. ASP.NET Web API
-        is an ideal platform for building RESTful applications on the .NET Framework.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301870">Learn more &raquo;</a></p>
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Eetdagboek</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-resource/1.6.4/angular-resource.js"></script>
+
+
+    <script>
+
+        var app = angular.module("app",['ngResource']);
+
+        app.factory("eetdagboekservice",function($resource){
+             return $resource('http://localhost:27017/api/EetDagboek/:id',{EetDagboek: "@@EetService"}
+            );
+
+        });
+
+        app.controller("EetController", function($scope, eetdagboekservice){
+
+            $scope.datum = new Date();
+
+//            Breakfast
+            $scope.GetInputBreakfast = function(){
+                $scope.visibleBreakfast = true;
+
+                $scope.GetInputBreakfast = function(){
+			         $scope.visibleBreakfast = !$scope.visibleBreakfast;
+		          }
+            }
+
+            $scope.inputsBreakfast = [0];
+            $scope.moreInputsBreakfast = function(){
+                console.log(" input + 1");
+                $scope.inputsBreakfast.push(0);
+            };
+
+            // Lunch
+            $scope.GetInputLunch = function(){
+                $scope.visibleLunch = true;
+
+                $scope.GetInputLunch = function(){
+			         $scope.visibleLunch = !$scope.visibleLunch;
+		          }
+            }
+
+            $scope.inputsLunch = [0];
+            $scope.moreInputsLunch = function(){
+                console.log(" input + 1");
+                $scope.inputsLunch.push(0);
+            };
+
+            // Diner
+            $scope.GetInputDiner = function(){
+                $scope.visibleDiner = true;
+
+                $scope.GetInputDiner = function(){
+			         $scope.visibleDiner = !$scope.visibleDiner;
+		          }
+            }
+
+            $scope.inputsDiner = [0];
+            $scope.moreInputsDiner = function(){
+                console.log(" input + 1");
+                $scope.inputsDiner.push(0);
+            };
+
+            // Snack
+            $scope.GetInputSnack = function(){
+                $scope.visibleSnack = true;
+
+                $scope.GetInputSnack = function(){
+			         $scope.visibleSnack = !$scope.visibleSnack;
+		          }
+            }
+
+            $scope.inputsSnack = [0];
+            $scope.moreInputsSnack = function(){
+                console.log(" input + 1");
+                $scope.inputsSnack.push(0);
+            };
+
+            // select feeling voor elk appart ???
+            $scope.feeling = {
+                availableOptions: [
+                    {id: '1', name: 'Normal'},
+                    {id: '2', name: 'Bloating'},
+                    {id: '3', name: 'Heavy belly'}
+                    ],
+                    selectedOption: {id: '1', name: 'Normal'}
+            };
+
+//
+//           $scope.GetHotels = function(){
+//              $scope.data = hotelservice.query();
+//           }
+//
+//           var hotel  = {
+//               "Name":"tom",
+//               "Country":"Engeland",
+//               "Price":333
+//           };
+//           $scope.PostHotel = function(){
+//                hotelservice.save({Name: 'ppp', Country: 'ttt',Price:333});
+//           }
+//
+//           $scope.GetHotelById = function(){
+//               $scope.data = hotelservice.get({hotel: 3});
+//           }
+        });
+
+    </script>
+
+</head>
+<body ng-app="app">
+
+    <div ng-controller="EetController">
+        <h1>Food Diary </h1>
+        <h2>Today: {{datum | date: fullDate}}</h2>
+        <p><button ng-click="GetInputBreakfast()">Breakfast</button> </p>
+        <div ng-show="visibleBreakfast">
+            <p>What did you eat for breakfast?</p>
+            <div ng-repeat="input in inputsBreakfast track by $index">
+                <input type="text"></input>
+            </div>
+            <button ng-click="moreInputsBreakfast();">+</button>
+            <p>How did you feel?</p>
+            <select name="mySelect" id="mySelect"
+                    ng-options="option.name for option in feeling.availableOptions track by option.name"
+                    ng-model="feeling.selectedOption"></select>
+        </div>
+        <p><button ng-click="GetInputLunch()">Lunch</button> </p>
+        <div ng-show="visibleLunch">
+            <p>What did you eat for Lunch?</p>
+            <div ng-repeat="input in inputsLunch track by $index">
+                <input type="text"></input>
+            </div>
+            <button ng-click="moreInputsLunch();">+</button>
+            <p>How did you feel?</p>
+            <select name="mySelect" id="mySelect"
+                    ng-options="option.name for option in feeling.availableOptions track by option.name"
+                    ng-model="feeling.selectedOption"></select>
+        </div>
+        <p><button ng-click="GetInputDiner()">Diner</button> </p>
+        <div ng-show="visibleDiner">
+            <p>What did you eat for Diner?</p>
+            <div ng-repeat="input in inputsDiner track by $index">
+                <input type="text"></input>
+            </div>
+            <button ng-click="moreInputsDiner();">+</button>
+            <p>How did you feel?</p>
+            <select name="mySelect" id="mySelect"
+                    ng-options="option.name for option in feeling.availableOptions track by option.name"
+                    ng-model="feeling.selectedOption"></select>
+        </div>
+        <p><button ng-click="GetInputSnack()">Snack</button> </p>
+        <div ng-show="visibleSnack">
+            <p>What snacks did you have?</p>
+            <div ng-repeat="input in inputsSnack track by $index">
+                <input type="text"></input>
+            </div>
+            <button ng-click="moreInputsSnack();">+</button>
+            <p>How did you feel?</p>
+            <select name="mySelect" id="mySelect"
+                    ng-options="option.name for option in feeling.availableOptions track by option.name"
+                    ng-model="feeling.selectedOption"></select>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301871">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301872">Learn more &raquo;</a></p>
-    </div>
-</div>
+
+    <hr>
+
+
+    <!--
+       <div ng-controller="HotelController">
+           {{data}}
+           <button ng-click="GetHotels()" value="Get Hotels">Get Hotels</button>
+           <br>
+           <button ng-click="PostHotel()" value="Post Hotels">Post Hotels</button>
+           <br>
+           <button ng-click="GetHotelById()" value="Post Hotels">Get hotel by id</button>
+       </div>
+    -->
+</body>
+</html>

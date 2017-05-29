@@ -13,8 +13,6 @@ namespace EetDagboek.Controllers
     [EnableCors(origins: "*", headers: "*", methods:"GET, POST")]
     public class EetDagboekController : ApiController
     {
-
-
         ModelRepo db = new ModelRepo();
 
         [HttpGet]
@@ -28,8 +26,9 @@ namespace EetDagboek.Controllers
             return "value";
         }
 
-        public void Post([FromBody]string value)
+        public void Post([FromBody]object value)
         {
+            var newDay = new Dag();
         }
 
         public void Put(int id, [FromBody]string value)

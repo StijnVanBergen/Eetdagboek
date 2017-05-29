@@ -14,7 +14,7 @@ namespace EetDagboek.Models
 
         public DataAccess()
         {
-            var client = new MongoClient();
+            var client = new MongoClient(new MongoUrl("mongodb://136.144.132.108:27017"));
             if (client != null)
             {
                 _database = client.GetDatabase("EetDagboek");

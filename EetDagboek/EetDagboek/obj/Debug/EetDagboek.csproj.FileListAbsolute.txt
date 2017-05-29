@@ -44,3 +44,13 @@ D:\School\PR5-project\EetDagboek\EetDagboek\bin\Antlr3.Runtime.pdb
 D:\School\PR5-project\EetDagboek\EetDagboek\obj\Debug\EetDagboek.csprojResolveAssemblyReference.cache
 D:\School\PR5-project\EetDagboek\EetDagboek\obj\Debug\EetDagboek.dll
 D:\School\PR5-project\EetDagboek\EetDagboek\obj\Debug\EetDagboek.pdb
+D:\School\PR5-project\EetDagboek\EetDagboek\bin\MongoDB.Bson.dll
+D:\School\PR5-project\EetDagboek\EetDagboek\bin\MongoDB.Driver.Core.dll
+D:\School\PR5-project\EetDagboek\EetDagboek\bin\MongoDB.Driver.dll
+D:\School\PR5-project\EetDagboek\EetDagboek\bin\System.Runtime.InteropServices.RuntimeInformation.dll
+D:\School\PR5-project\EetDagboek\EetDagboek\bin\System.Web.Cors.dll
+D:\School\PR5-project\EetDagboek\EetDagboek\bin\System.Web.Http.Cors.dll
+D:\School\PR5-project\EetDagboek\EetDagboek\bin\MongoDB.Bson.xml
+D:\School\PR5-project\EetDagboek\EetDagboek\bin\MongoDB.Driver.xml
+D:\School\PR5-project\EetDagboek\EetDagboek\bin\MongoDB.Driver.Core.xml
+D:\School\PR5-project\EetDagboek\EetDagboek\bin\System.Web.Http.Cors.xml
