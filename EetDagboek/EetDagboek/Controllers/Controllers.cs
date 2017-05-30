@@ -31,7 +31,7 @@ namespace EetDagboek.Controllers
             await db.AddMaaltijd((Maaltijd)value);
         }
     }
-
+    [EnableCors(origins: "*", headers: "*", methods: "GET, POST")]
     public class MaaltijdController : ApiController
     {
         ModelRepo db = new ModelRepo();

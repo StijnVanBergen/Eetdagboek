@@ -14,7 +14,7 @@
         var app = angular.module("app",['ngResource']);
 
         app.factory("eetdagboekservice",function($resource){
-             return $resource('http://localhost:27017/api/EetDagboek/:id',{EetDagboek: "@@EetService"}
+             return $resource('http://localhost:27017/api/Maaltijd/:id',{EetDagboek: "@@EetService"}
             );
 
         });
@@ -32,10 +32,10 @@
 		          }
             }
 
-            $scope.inputsBreakfast = [0];
+            $scope.inputsBreakfast = [{ value: '' }, { value: 'Choco' }];
             $scope.moreInputsBreakfast = function(){
                 console.log(" input + 1");
-                $scope.inputsBreakfast.push(0);
+                $scope.inputsBreakfast.push({value: ''});
             };
 
             // Lunch
@@ -47,10 +47,10 @@
 		          }
             }
 
-            $scope.inputsLunch = [0];
+            $scope.inputsLunch = [{value:''}];
             $scope.moreInputsLunch = function(){
                 console.log(" input + 1");
-                $scope.inputsLunch.push(0);
+                $scope.inputsLunch.push({ value: '' });
             };
 
             // Diner
@@ -62,10 +62,10 @@
 		          }
             }
 
-            $scope.inputsDiner = [0];
+            $scope.inputsDiner = [{value:''}];
             $scope.moreInputsDiner = function(){
                 console.log(" input + 1");
-                $scope.inputsDiner.push(0);
+                $scope.inputsDiner.push({value:''});
             };
 
             // Snack
@@ -77,22 +77,89 @@
 		          }
             }
 
-            $scope.inputsSnack = [0];
+            $scope.inputsSnack = [{ value: '' }];
             $scope.moreInputsSnack = function(){
                 console.log(" input + 1");
-                $scope.inputsSnack.push(0);
+                $scope.inputsSnack.push({value:''});
             };
 
-            // select feeling voor elk appart ???
-            $scope.feeling = {
-                availableOptions: [
-                    {id: '1', name: 'Normal'},
-                    {id: '2', name: 'Bloating'},
-                    {id: '3', name: 'Heavy belly'}
-                    ],
+            // select feeling voor elk appart
+            var feeling = [
+                { id: '1', name: 'Normal' },
+                { id: '2', name: 'Bloating' },
+                { id: '3', name: 'Heavy belly' }
+            ];
+
+            $scope.feelingBreakfast = {
+                availableOptions: feeling,
                     selectedOption: {id: '1', name: 'Normal'}
             };
 
+            $scope.feelingLunch = {
+                availableOptions: feeling,
+                selectedOption: { id: '1', name: 'Normal' }
+            };
+
+            $scope.feelingDiner = {
+                availableOptions:feeling,
+                selectedOption: { id: '1', name: 'Normal' }
+            };
+
+            $scope.feelingSnack = {
+                availableOptions:feeling,
+                selectedOption: { id: '1', name: 'Normal' }
+            };
+
+            $scope.PostInputBreakfast = function () {
+
+                var maaltijd = {
+                    "Dag": dag,
+                    "Titel": "Breakfast",
+                    "Voedsel": $scope.inputsBreakfast,
+                    //"Gevoel": $scope.feelingBreakfast.selectedOption
+                };
+
+                var dag = {
+                    "Maaltijden": maaltijd.Voedsel,
+                    "Gevoel": $scope.feelingBreakfast.selectedOption.name,
+                    "datum": $scope.datum
+                };
+                console.log("save");
+                eetdagboekservice.save(maaltijd);
+            }
+
+
+            $scope.PostInputLunch = function () {
+                var maaltijd = {
+                    "Dag": $scope.datum,
+                    "Titel": "Lunch",
+                    "Voedsel": $scope.inputsLunch,
+                    "Gevoel": $scope.feelingLunch.selectedOption
+                }
+                eetdagboekservice.save(maaltijd);
+            }
+
+
+            $scope.PostInputDiner = function () {
+                var maaltijd = {
+                    "Dag": $scope.datum,
+                    "Titel": "Diner",
+                    "Voedsel": $scope.inputsDiner,
+                    "Gevoel": $scope.feelingDiner.selectedOption
+                }
+                eetdagboekservice.save(maaltijd);
+            }
+
+
+            $scope.PostInputSnack = function () {
+                var maaltijd = {
+                    "Dag": $scope.datum,
+                    "Maaltijd": "Snack",
+                    "Voedsel": $scope.inputsSnack,
+                    "Gevoel": $scope.feelingSnack.selectedOption
+                }
+                eetdagboekservice.save(maaltijd);
+            }
 //
 //           $scope.GetHotels = function(){
 //              $scope.data = hotelservice.query();
@@ -124,49 +191,60 @@
         <div ng-show="visibleBreakfast">
             <p>What did you eat for breakfast?</p>
             <div ng-repeat="input in inputsBreakfast track by $index">
-                <input type="text" />
+                <input ng-model="input.value" type="text" />
             </div>
+            {{inputsBreakfast}}
             <button ng-click="moreInputsBreakfast();">+</button>
             <p>How did you feel?</p>
             <select name="mySelect" id="mySelect"
-                    ng-options="option.name for option in feeling.availableOptions track by option.name"
-                    ng-model="feeling.selectedOption"></select>
+                    ng-options="option.name for option in feelingBreakfast.availableOptions track by option.name"
+                    ng-model="feelingBreakfast.selectedOption"></select>
+            {{feelingBreakfast.selectedOption}}
+            <p><button ng-click="PostInputBreakfast()">Opslaan</button></p>
         </div>
+
         <p><button ng-click="GetInputLunch()">Lunch</button> </p>
         <div ng-show="visibleLunch">
             <p>What did you eat for Lunch?</p>
             <div ng-repeat="input in inputsLunch track by $index">
-                <input type="text"></input>
+                <input ng-model="input.value" type="text"></input>
             </div>
+            {{inputsLunch}}
             <button ng-click="moreInputsLunch();">+</button>
             <p>How did you feel?</p>
             <select name="mySelect" id="mySelect"
-                    ng-options="option.name for option in feeling.availableOptions track by option.name"
-                    ng-model="feeling.selectedOption"></select>
+                    ng-options="option.name for option in feelingLunch.availableOptions track by option.name"
+                    ng-model="feelingLunch.selectedOption"></select>
+            {{feelingLunch.selectedOption}}
+            <p><button ng-click="PostInputLunch()">Opslaan</button></p>
         </div>
+
         <p><button ng-click="GetInputDiner()">Diner</button> </p>
         <div ng-show="visibleDiner">
             <p>What did you eat for Diner?</p>
             <div ng-repeat="input in inputsDiner track by $index">
-                <input type="text"></input>
+                <input ng-model="input.value" type="text"></input>
             </div>
             <button ng-click="moreInputsDiner();">+</button>
             <p>How did you feel?</p>
             <select name="mySelect" id="mySelect"
-                    ng-options="option.name for option in feeling.availableOptions track by option.name"
-                    ng-model="feeling.selectedOption"></select>
+                    ng-options="option.name for option in feelingDiner.availableOptions track by option.name"
+                    ng-model="feelingDiner.selectedOption"></select>
+            <p><button ng-click="PostInputDiner()">Opslaan</button></p>
         </div>
+
         <p><button ng-click="GetInputSnack()">Snack</button> </p>
         <div ng-show="visibleSnack">
             <p>What snacks did you have?</p>
             <div ng-repeat="input in inputsSnack track by $index">
-                <input type="text"></input>
+                <input ng-model="input.value" type="text"></input>
             </div>
             <button ng-click="moreInputsSnack();">+</button>
             <p>How did you feel?</p>
             <select name="mySelect" id="mySelect"
-                    ng-options="option.name for option in feeling.availableOptions track by option.name"
-                    ng-model="feeling.selectedOption"></select>
+                    ng-options="option.name for option in feelingSnack.availableOptions track by option.name"
+                    ng-model="feelingSnack.selectedOption"></select>
+            <p><button ng-click="PostInputSnack()">Opslaan</button></p>
         </div>
     </div>
 
