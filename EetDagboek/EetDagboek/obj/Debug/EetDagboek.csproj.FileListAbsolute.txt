@@ -41,7 +41,6 @@ D:\School\PR5-project\EetDagboek\EetDagboek\bin\System.Web.WebPages.xml
 D:\School\PR5-project\EetDagboek\EetDagboek\bin\System.Web.WebPages.Deployment.xml
 D:\School\PR5-project\EetDagboek\EetDagboek\bin\System.Web.WebPages.Razor.xml
 D:\School\PR5-project\EetDagboek\EetDagboek\bin\Antlr3.Runtime.pdb
-D:\School\PR5-project\EetDagboek\EetDagboek\obj\Debug\EetDagboek.csprojResolveAssemblyReference.cache
 D:\School\PR5-project\EetDagboek\EetDagboek\obj\Debug\EetDagboek.dll
 D:\School\PR5-project\EetDagboek\EetDagboek\obj\Debug\EetDagboek.pdb
 D:\School\PR5-project\EetDagboek\EetDagboek\bin\MongoDB.Bson.dll
