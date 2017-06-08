@@ -7,6 +7,8 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Threading.Tasks;
 using System.Web.Http.Cors;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace EetDagboek.Controllers
 {
@@ -51,7 +53,9 @@ namespace EetDagboek.Controllers
         [HttpPost]
         public async void PostMaaltijd([FromBody]object newMaaltijd)
         {
-            await db.AddMaaltijd((Maaltijd)newMaaltijd);
+            var mt = JsonConvert.DeserializeObject<Maaltijd>(newMaaltijd.ToString());
+
+            await db.AddMaaltijd(mt);
         }
     }
 }

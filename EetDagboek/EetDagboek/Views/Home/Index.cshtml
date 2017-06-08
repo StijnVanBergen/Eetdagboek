@@ -32,10 +32,10 @@
 		          }
             }
 
-            $scope.inputsBreakfast = [{ value: '' }, { value: 'Choco' }];
-            $scope.moreInputsBreakfast = function(){
+            $scope.inputsBreakfast = [];
+            $scope.moreInputsBreakfast = function(value){
                 console.log(" input + 1");
-                $scope.inputsBreakfast.push({value: ''});
+                $scope.inputsBreakfast.push(value);
             };
 
             // Lunch
@@ -116,7 +116,7 @@
                     "Dag": dag,
                     "Titel": "Breakfast",
                     "Voedsel": $scope.inputsBreakfast,
-                    //"Gevoel": $scope.feelingBreakfast.selectedOption
+                    "Gevoel": $scope.feelingBreakfast.selectedOption
                 };
 
                 var dag = {
@@ -190,11 +190,11 @@
         <p><button ng-click="GetInputBreakfast()">Breakfast</button> </p>
         <div ng-show="visibleBreakfast">
             <p>What did you eat for breakfast?</p>
-            <div ng-repeat="input in inputsBreakfast track by $index">
-                <input ng-model="input.value" type="text" />
-            </div>
+            <form ng-submit="moreInputsBreakfast(EetController.MyText)">
+                <input type="text" ng-model="EetController.MyText" />
+                <button type="submit">Add</button>
+            </form>
             {{inputsBreakfast}}
-            <button ng-click="moreInputsBreakfast();">+</button>
             <p>How did you feel?</p>
             <select name="mySelect" id="mySelect"
                     ng-options="option.name for option in feelingBreakfast.availableOptions track by option.name"
@@ -207,7 +207,7 @@
         <div ng-show="visibleLunch">
             <p>What did you eat for Lunch?</p>
             <div ng-repeat="input in inputsLunch track by $index">
-                <input ng-model="input.value" type="text"></input>
+                <input ng-model="input.value" type="text" />
             </div>
             {{inputsLunch}}
             <button ng-click="moreInputsLunch();">+</button>
@@ -223,7 +223,7 @@
         <div ng-show="visibleDiner">
             <p>What did you eat for Diner?</p>
             <div ng-repeat="input in inputsDiner track by $index">
-                <input ng-model="input.value" type="text"></input>
+                <input ng-model="input.value" type="text" />
             </div>
             <button ng-click="moreInputsDiner();">+</button>
             <p>How did you feel?</p>
@@ -237,7 +237,7 @@
         <div ng-show="visibleSnack">
             <p>What snacks did you have?</p>
             <div ng-repeat="input in inputsSnack track by $index">
-                <input ng-model="input.value" type="text"></input>
+                <input ng-model="input.value" type="text" />
             </div>
             <button ng-click="moreInputsSnack();">+</button>
             <p>How did you feel?</p>

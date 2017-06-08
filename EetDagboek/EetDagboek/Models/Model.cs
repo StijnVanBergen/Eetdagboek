@@ -15,9 +15,6 @@ namespace EetDagboek.Models
         [BsonElement("Maaltijd")]
         public List<Maaltijd> Maaltijden { get; set; }
 
-        [BsonElement("Gevoel")]
-        public string Gevoel { get; set; }
-
         [BsonElement("Datum")]
         public DateTime Datum { get; set; }
     }
@@ -32,6 +29,9 @@ namespace EetDagboek.Models
 
         [BsonElement("Voedsel")]
         public List<string> Voedsel { get; set; }
+
+        [BsonElement("Gevoel")]
+        public string Gevoel { get; set; }
 
         public Dag Dag { get; set; }
     }
