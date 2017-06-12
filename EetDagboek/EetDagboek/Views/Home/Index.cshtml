@@ -19,7 +19,7 @@
 
         });
 
-        app.controller("EetController", function($scope, eetdagboekservice){
+        app.controller("EetController", function($scope, eetdagboekservice, $http){
 
             $scope.datum = new Date();
 
@@ -170,8 +170,17 @@
                 eetdagboekservice.save(maaltijd);
             }
 
-            $scope.GetMaaltijden = function(){
-                $scope.data = eetdagboekservice.query($scope.datum);
+            
+
+            $scope.GetDag = function(){
+                $scope.datumGet = $scope.datum.getTime();
+                console.log($scope.datumGet);
+                $http.get("http://localhost:27017/api/Maaltijd/"+ $scope.datumGet)
+                .then(function(data)
+                {
+                    $scope.data = data;
+                    console.log(data)
+                });
             }
 //
 //           $scope.GetHotels = function(){
@@ -203,8 +212,8 @@
         <p><button ng-click="GetInputBreakfast()">Breakfast</button> </p>
         <div ng-show="visibleBreakfast">
             <p>What did you eat for breakfast?</p>
-            <form ng-submit="moreInputsBreakfast(EetController.MyText)">
-                <input type="text" ng-model="EetController.MyText" />
+            <form ng-submit="moreInputsBreakfast(EetController)">
+                <input type="text" ng-model="EetController" />
                 <button type="submit">Add</button>
             </form>
             {{inputsBreakfast}}
@@ -219,8 +228,8 @@
         <p><button ng-click="GetInputLunch()">Lunch</button> </p>
         <div ng-show="visibleLunch">
             <p>What did you eat for Lunch?</p>
-            <form ng-submit="moreInputsLunch(EetController.MyText)">
-                <input type="text" ng-model="EetController.MyText" />
+            <form ng-submit="moreInputsLunch(EetController)">
+                <input type="text" ng-model="EetController" />
                 <button type="submit">Add</button>
             </form>
             {{inputsLunch}}
@@ -236,8 +245,8 @@
         <p><button ng-click="GetInputDiner()">Diner</button> </p>
         <div ng-show="visibleDiner">
             <p>What did you eat for Diner?</p>
-                <form ng-submit="moreInputsDiner(EetController.MyText)">
-                    <input type="text" ng-model="EetController.MyText" />
+                <form ng-submit="moreInputsDiner(EetController)">
+                    <input type="text" ng-model="EetController" />
                     <button type="submit">Add</button>
                 </form>
             <p>How did you feel?</p>
@@ -250,8 +259,8 @@
         <p><button ng-click="GetInputSnack()">Snack</button> </p>
         <div ng-show="visibleSnack">
             <p>What snacks did you have?</p>
-            <form ng-submit="moreInputsSnack(EetController.MyText)">
-                <input type="text" ng-model="EetController.MyText" />
+            <form ng-submit="moreInputsSnack(EetController)">
+                <input type="text" ng-model="EetController" />
                 <button type="submit">Add</button>
             </form>
             <p>How did you feel?</p>
@@ -261,7 +270,7 @@
             <p><button ng-click="PostInputSnack()">Opslaan</button></p>
         </div>
 
-        <button ng-click="GetMaaltijden($scope.datum)" value="Get Maaltijden">Get Maaltijden</button>
+        <button ng-click="GetDag()" value="Get Maaltijden">Get Maaltijden</button>
         {{data}}
     </div>
 

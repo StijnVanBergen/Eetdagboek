@@ -17,21 +17,19 @@ namespace EetDagboek.Controllers
     {
         ModelRepo db = new ModelRepo();
 
-        [HttpGet]
-        public async Task<List<Maaltijd>> GetAllMaaltijden([FromBody]object day)
+        [HttpPost]
+        public async void Post([FromBody]object value)
         {
-            DateTime date = JsonConvert.DeserializeObject<DateTime>(day.ToString());
+            Maaltijd meal = JsonConvert.DeserializeObject<Maaltijd>(value.ToString());
 
-            return await db.GetAllMaaltijdenByDay((DateTime)day);
+            await db.AddMaaltijd(meal);
         }
 
-        [HttpPost]
-        public async void PostMaaltijd([FromBody]object newMaaltijd)
+        [HttpGet]
+        public string Get(long id)
         {
-            var mt = JsonConvert.DeserializeObject<Maaltijd>(newMaaltijd.ToString());
-            mt.Datum = mt.Datum.Date;
-
-            await db.AddMaaltijd(mt);
+            DateTime day = new DateTime(1970, 01, 01).AddMilliseconds(id).Date;
+            return JsonConvert.SerializeObject(db.GetDay(day).Result);
         }
     }
 }
