@@ -17,39 +17,24 @@ namespace EetDagboek.Models
             _context = new DataAccess();
         }
 
-        public async Task AddDag(Dag dag)
-        {
-            await _context.Dag.InsertOneAsync(dag);
-        }
-
         public async Task AddMaaltijd(Maaltijd maaltijd)
         {
             await _context.Maaltijd.InsertOneAsync(maaltijd);
         }
 
-        public async Task<List<Dag>> GetAllDays()
-        {
-            return await _context.Dag.Find(_ => true).ToListAsync();
-        }
-
         public async Task<List<Maaltijd>> GetAllMaaltijdenByDay(DateTime day)
         {
-            return await _context.Maaltijd.Find(x => x.Dag.Datum == day).ToListAsync();
+            return await _context.Maaltijd.Find(x => x.Datum == day).ToListAsync();
         }
 
         public async Task<Maaltijd> GetMaaltijdByDay(DateTime day, string titel)
         {
             var query = from x in _context.Maaltijd.AsQueryable()
-                        where x.Dag.Datum == day
+                        where x.Datum == day
                         where x.Titel == titel
                         select x;                        
 
             return await query.FirstOrDefaultAsync();
-        }
-
-        public async Task<Dag> GetOneDay(DateTime dag)
-        {
-            return await _context.Dag.Find(x => x.Datum == dag).FirstOrDefaultAsync();
         }
     }
 }

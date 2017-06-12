@@ -12,48 +12,24 @@ using Newtonsoft.Json;
 
 namespace EetDagboek.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods:"GET, POST")]
-    public class DagController : ApiController
-    {
-        ModelRepo db = new ModelRepo();
-
-        [HttpGet]
-        public async Task<List<Dag>> GetAllDays()
-        {
-            return await db.GetAllDays();
-        }
-
-        public async Task<Dag> GetDay(DateTime day)
-        {
-            return await db.GetOneDay(day);
-        }
-
-        public async void PostMaaltijd([FromBody]object value)
-        {
-            await db.AddMaaltijd((Maaltijd)value);
-        }
-    }
     [EnableCors(origins: "*", headers: "*", methods: "GET, POST")]
     public class MaaltijdController : ApiController
     {
         ModelRepo db = new ModelRepo();
 
         [HttpGet]
-        public async Task<Maaltijd> GetMaaltijd(DateTime day, string titel)
+        public async Task<List<Maaltijd>> GetAllMaaltijden([FromBody]object day)
         {
-            return await db.GetMaaltijdByDay(day, titel);
-        }
+            DateTime date = JsonConvert.DeserializeObject<DateTime>(day.ToString());
 
-        [HttpGet]
-        public async Task<List<Maaltijd>> GetAllMaaltijden(DateTime day)
-        {
-            return await db.GetAllMaaltijdenByDay(day);
+            return await db.GetAllMaaltijdenByDay((DateTime)day);
         }
 
         [HttpPost]
         public async void PostMaaltijd([FromBody]object newMaaltijd)
         {
             var mt = JsonConvert.DeserializeObject<Maaltijd>(newMaaltijd.ToString());
+            mt.Datum = mt.Datum.Date;
 
             await db.AddMaaltijd(mt);
         }

@@ -14,7 +14,7 @@
         var app = angular.module("app",['ngResource']);
 
         app.factory("eetdagboekservice",function($resource){
-             return $resource('http://localhost:27017/api/Maaltijd/:id',{EetDagboek: "@@EetService"}
+             return $resource('http://localhost:27017/api/Maaltijd/:id',{id: "@@datum"}
             );
 
         });
@@ -84,45 +84,35 @@
             };
 
             // select feeling voor elk appart
-            var feeling = [
-                { id: '1', name: 'Normal' },
-                { id: '2', name: 'Bloating' },
-                { id: '3', name: 'Heavy belly' }
-            ];
+            var feeling = ['Normal', 'Bloating', 'Heavy belly'];
 
             $scope.feelingBreakfast = {
                 availableOptions: feeling,
-                    selectedOption: {id: '1', name: 'Normal'}
+                selectedOption: feeling[0]
             };
 
             $scope.feelingLunch = {
                 availableOptions: feeling,
-                selectedOption: { id: '1', name: 'Normal' }
+                selectedOption: feeling[0]
             };
 
             $scope.feelingDiner = {
                 availableOptions:feeling,
-                selectedOption: { id: '1', name: 'Normal' }
+                selectedOption: feeling[0]
             };
 
             $scope.feelingSnack = {
                 availableOptions:feeling,
-                selectedOption: { id: '1', name: 'Normal' }
+                selectedOption: feeling[0]
             };
 
             $scope.PostInputBreakfast = function () {
 
                 var maaltijd = {
-                    "Dag": dag,
                     "Titel": "Breakfast",
                     "Voedsel": $scope.inputsBreakfast,
-                    "Gevoel": $scope.feelingBreakfast.selectedOption
-                };
-
-                var dag = {
-                    "Maaltijden": maaltijd.Voedsel,
-                    "Gevoel": $scope.feelingBreakfast.selectedOption.name,
-                    "datum": $scope.datum
+                    "Gevoel": $scope.feelingBreakfast.selectedOption,
+                    "Datum": $scope.datum
                 };
                 console.log("save");
                 eetdagboekservice.save(maaltijd);
@@ -159,6 +149,10 @@
                     "Gevoel": $scope.feelingSnack.selectedOption
                 }
                 eetdagboekservice.save(maaltijd);
+            }
+
+            $scope.GetMaaltijden = function(){
+                $scope.data = eetdagboekservice.query($scope.datum);
             }
 //
 //           $scope.GetHotels = function(){
@@ -197,7 +191,7 @@
             {{inputsBreakfast}}
             <p>How did you feel?</p>
             <select name="mySelect" id="mySelect"
-                    ng-options="option.name for option in feelingBreakfast.availableOptions track by option.name"
+                    ng-options="option for option in feelingBreakfast.availableOptions track by option"
                     ng-model="feelingBreakfast.selectedOption"></select>
             {{feelingBreakfast.selectedOption}}
             <p><button ng-click="PostInputBreakfast()">Opslaan</button></p>
@@ -213,7 +207,7 @@
             <button ng-click="moreInputsLunch();">+</button>
             <p>How did you feel?</p>
             <select name="mySelect" id="mySelect"
-                    ng-options="option.name for option in feelingLunch.availableOptions track by option.name"
+                    ng-options="option for option in feelingLunch.availableOptions track by option"
                     ng-model="feelingLunch.selectedOption"></select>
             {{feelingLunch.selectedOption}}
             <p><button ng-click="PostInputLunch()">Opslaan</button></p>
@@ -228,7 +222,7 @@
             <button ng-click="moreInputsDiner();">+</button>
             <p>How did you feel?</p>
             <select name="mySelect" id="mySelect"
-                    ng-options="option.name for option in feelingDiner.availableOptions track by option.name"
+                    ng-options="option for option in feelingDiner.availableOptions track by option"
                     ng-model="feelingDiner.selectedOption"></select>
             <p><button ng-click="PostInputDiner()">Opslaan</button></p>
         </div>
@@ -242,18 +236,23 @@
             <button ng-click="moreInputsSnack();">+</button>
             <p>How did you feel?</p>
             <select name="mySelect" id="mySelect"
-                    ng-options="option.name for option in feelingSnack.availableOptions track by option.name"
+                    ng-options="option for option in feelingSnack.availableOptions track by option"
                     ng-model="feelingSnack.selectedOption"></select>
             <p><button ng-click="PostInputSnack()">Opslaan</button></p>
         </div>
+
+        <button ng-click="GetMaaltijden($scope.datum)" value="Get Maaltijden">Get Maaltijden</button>
+        {{data}}
     </div>
+
+    
 
     <hr>
 
 
     <!--
        <div ng-controller="HotelController">
-           {{data}}
+           
            <button ng-click="GetHotels()" value="Get Hotels">Get Hotels</button>
            <br>
            <button ng-click="PostHotel()" value="Post Hotels">Post Hotels</button>
