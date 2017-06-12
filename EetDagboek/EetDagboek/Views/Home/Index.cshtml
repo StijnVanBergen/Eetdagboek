@@ -47,10 +47,10 @@
 		          }
             }
 
-            $scope.inputsLunch = [{value:''}];
-            $scope.moreInputsLunch = function(){
+            $scope.inputsLunch = [];
+            $scope.moreInputsLunch = function(value){
                 console.log(" input + 1");
-                $scope.inputsLunch.push({ value: '' });
+                $scope.inputsLunch.push(value);
             };
 
             // Diner
@@ -62,10 +62,10 @@
 		          }
             }
 
-            $scope.inputsDiner = [{value:''}];
-            $scope.moreInputsDiner = function(){
+            $scope.inputsDiner = [];
+            $scope.moreInputsDiner = function(value){
                 console.log(" input + 1");
-                $scope.inputsDiner.push({value:''});
+                $scope.inputsDiner.push(value);
             };
 
             // Snack
@@ -77,10 +77,10 @@
 		          }
             }
 
-            $scope.inputsSnack = [{ value: '' }];
-            $scope.moreInputsSnack = function(){
+            $scope.inputsSnack = [];
+            $scope.moreInputsSnack = function(value){
                 console.log(" input + 1");
-                $scope.inputsSnack.push({value:''});
+                $scope.inputsSnack.push(value);
             };
 
             // select feeling voor elk appart
@@ -121,33 +121,52 @@
 
             $scope.PostInputLunch = function () {
                 var maaltijd = {
-                    "Dag": $scope.datum,
+                    "Dag": dag,
                     "Titel": "Lunch",
                     "Voedsel": $scope.inputsLunch,
                     "Gevoel": $scope.feelingLunch.selectedOption
-                }
+                };
+
+                var dag = {
+                    "Maaltijden": maaltijd.Voedsel,
+                    "Gevoel": $scope.feelingLunch.selectedOption.name,
+                    "datum": $scope.datum
+                };
+                console.log("save");
                 eetdagboekservice.save(maaltijd);
             }
 
 
             $scope.PostInputDiner = function () {
                 var maaltijd = {
-                    "Dag": $scope.datum,
+                    "Dag": dag,
                     "Titel": "Diner",
                     "Voedsel": $scope.inputsDiner,
                     "Gevoel": $scope.feelingDiner.selectedOption
-                }
+                };
+                var dag = {
+                    "Maaltijden": maaltijd.Voedsel,
+                    "Gevoel": $scope.feelingDiner.selectedOption.name,
+                    "datum": $scope.datum
+                };
+                console.log("save");
                 eetdagboekservice.save(maaltijd);
             }
 
 
             $scope.PostInputSnack = function () {
                 var maaltijd = {
-                    "Dag": $scope.datum,
+                    "Dag": dag,
                     "Maaltijd": "Snack",
                     "Voedsel": $scope.inputsSnack,
                     "Gevoel": $scope.feelingSnack.selectedOption
                 }
+                var dag = {
+                    "Maaltijden": maaltijd.Voedsel,
+                    "Gevoel": $scope.feelingSnack.selectedOption.name,
+                    "datum": $scope.datum
+                };
+                console.log("save");
                 eetdagboekservice.save(maaltijd);
             }
 
@@ -200,9 +219,10 @@
         <p><button ng-click="GetInputLunch()">Lunch</button> </p>
         <div ng-show="visibleLunch">
             <p>What did you eat for Lunch?</p>
-            <div ng-repeat="input in inputsLunch track by $index">
-                <input ng-model="input.value" type="text" />
-            </div>
+            <form ng-submit="moreInputsLunch(EetController.MyText)">
+                <input type="text" ng-model="EetController.MyText" />
+                <button type="submit">Add</button>
+            </form>
             {{inputsLunch}}
             <button ng-click="moreInputsLunch();">+</button>
             <p>How did you feel?</p>
@@ -216,10 +236,10 @@
         <p><button ng-click="GetInputDiner()">Diner</button> </p>
         <div ng-show="visibleDiner">
             <p>What did you eat for Diner?</p>
-            <div ng-repeat="input in inputsDiner track by $index">
-                <input ng-model="input.value" type="text" />
-            </div>
-            <button ng-click="moreInputsDiner();">+</button>
+                <form ng-submit="moreInputsDiner(EetController.MyText)">
+                    <input type="text" ng-model="EetController.MyText" />
+                    <button type="submit">Add</button>
+                </form>
             <p>How did you feel?</p>
             <select name="mySelect" id="mySelect"
                     ng-options="option for option in feelingDiner.availableOptions track by option"
@@ -230,10 +250,10 @@
         <p><button ng-click="GetInputSnack()">Snack</button> </p>
         <div ng-show="visibleSnack">
             <p>What snacks did you have?</p>
-            <div ng-repeat="input in inputsSnack track by $index">
-                <input ng-model="input.value" type="text" />
-            </div>
-            <button ng-click="moreInputsSnack();">+</button>
+            <form ng-submit="moreInputsSnack(EetController.MyText)">
+                <input type="text" ng-model="EetController.MyText" />
+                <button type="submit">Add</button>
+            </form>
             <p>How did you feel?</p>
             <select name="mySelect" id="mySelect"
                     ng-options="option for option in feelingSnack.availableOptions track by option"
