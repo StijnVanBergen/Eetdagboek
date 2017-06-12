@@ -33,9 +33,13 @@
             }
 
             $scope.inputsBreakfast = [];
-            $scope.moreInputsBreakfast = function(value){
+            $scope.moreInputsBreakfast = function (value) {
+                //$scope.myform.mytext.$setPristine();
+                //$scope.myform.MyText.$setPristine(true);
+                //$scope.MyText = '';
                 console.log(" input + 1");
                 $scope.inputsBreakfast.push(value);
+                $scope.EetController.BreakfastItem = '';
             };
 
             // Lunch
@@ -51,6 +55,7 @@
             $scope.moreInputsLunch = function(value){
                 console.log(" input + 1");
                 $scope.inputsLunch.push(value);
+                $scope.EetController.LunchItem = '';
             };
 
             // Diner
@@ -66,6 +71,7 @@
             $scope.moreInputsDiner = function(value){
                 console.log(" input + 1");
                 $scope.inputsDiner.push(value);
+                $scope.EetController.DinerItem = '';
             };
 
             // Snack
@@ -81,6 +87,7 @@
             $scope.moreInputsSnack = function(value){
                 console.log(" input + 1");
                 $scope.inputsSnack.push(value);
+                $scope.EetController.SnackItem = '';
             };
 
             // select feeling voor elk appart
@@ -209,65 +216,78 @@
     <div ng-controller="EetController">
         <h1>Food Diary </h1>
         <h2>Today: {{datum | date: fullDate}}</h2>
-        <p><button ng-click="GetInputBreakfast()">Breakfast</button> </p>
-        <div ng-show="visibleBreakfast">
+
+        <p><button class="btn btn-primary btn-lg" ng-click="GetInputBreakfast()">Breakfast</button> </p>
+        <div class="col-md-offset-1" ng-show="visibleBreakfast">
             <p>What did you eat for breakfast?</p>
-            <form ng-submit="moreInputsBreakfast(EetController)">
-                <input type="text" ng-model="EetController" />
-                <button type="submit">Add</button>
+            <form name="myform" ng-submit="moreInputsBreakfast(EetController.BreakfastItem)">
+                <input type="text" name="mytext" ng-model="EetController.BreakfastItem" />
+                <button class="btn btn-primary" type="submit">Add</button>
             </form>
-            {{inputsBreakfast}}
+
+            <ul>
+                <li ng-repeat="x in inputsBreakfast">{{x}}</li>
+            </ul>
+
             <p>How did you feel?</p>
             <select name="mySelect" id="mySelect"
                     ng-options="option for option in feelingBreakfast.availableOptions track by option"
                     ng-model="feelingBreakfast.selectedOption"></select>
-            {{feelingBreakfast.selectedOption}}
-            <p><button ng-click="PostInputBreakfast()">Opslaan</button></p>
+            
+            <p><br /><button class="btn btn-primary" ng-click="PostInputBreakfast()">Opslaan</button></p>
         </div>
 
-        <p><button ng-click="GetInputLunch()">Lunch</button> </p>
-        <div ng-show="visibleLunch">
+        <p><button class="btn btn-success btn-lg" ng-click="GetInputLunch()">Lunch</button> </p>
+        <div class="col-md-offset-1" ng-show="visibleLunch">
             <p>What did you eat for Lunch?</p>
-            <form ng-submit="moreInputsLunch(EetController)">
-                <input type="text" ng-model="EetController" />
-                <button type="submit">Add</button>
+            <form ng-submit="moreInputsLunch(EetController.LunchItem)">
+                <input type="text" ng-model="EetController.LunchItem" />
+                <button class="btn btn-success" type="submit">Add</button>
             </form>
-            {{inputsLunch}}
-            <button ng-click="moreInputsLunch();">+</button>
+            <ul>
+                <li ng-repeat="x in inputsLunch">{{x}}</li>
+            </ul>
             <p>How did you feel?</p>
             <select name="mySelect" id="mySelect"
                     ng-options="option for option in feelingLunch.availableOptions track by option"
                     ng-model="feelingLunch.selectedOption"></select>
-            {{feelingLunch.selectedOption}}
-            <p><button ng-click="PostInputLunch()">Opslaan</button></p>
+           
+            <p><br /><button class="btn btn-success" ng-click="PostInputLunch()">Opslaan</button></p>
         </div>
 
-        <p><button ng-click="GetInputDiner()">Diner</button> </p>
-        <div ng-show="visibleDiner">
+        <p><button class="btn btn-warning btn-lg" ng-click="GetInputDiner()">Diner</button> </p>
+        <div class="col-md-offset-1" ng-show="visibleDiner">
             <p>What did you eat for Diner?</p>
-                <form ng-submit="moreInputsDiner(EetController)">
-                    <input type="text" ng-model="EetController" />
-                    <button type="submit">Add</button>
+                <form ng-submit="moreInputsDiner(EetController.DinerItem)">
+                    <input type="text" ng-model="EetController.DinerItem" />
+                    <button class="btn btn-warning" type="submit">Add</button>
                 </form>
+            <ul>
+                <li ng-repeat="x in inputsDiner">{{x}}</li>
+            </ul>
             <p>How did you feel?</p>
             <select name="mySelect" id="mySelect"
                     ng-options="option for option in feelingDiner.availableOptions track by option"
                     ng-model="feelingDiner.selectedOption"></select>
-            <p><button ng-click="PostInputDiner()">Opslaan</button></p>
+            <p><br /><button class="btn btn-warning" ng-click="PostInputDiner()">Opslaan</button></p>
         </div>
 
-        <p><button ng-click="GetInputSnack()">Snack</button> </p>
-        <div ng-show="visibleSnack">
+        <p><button class="btn btn-danger btn-lg" ng-click="GetInputSnack()">Snack</button> </p>
+        <div class="col-md-offset-1" ng-show="visibleSnack">
             <p>What snacks did you have?</p>
-            <form ng-submit="moreInputsSnack(EetController)">
-                <input type="text" ng-model="EetController" />
-                <button type="submit">Add</button>
+            <form ng-submit="moreInputsSnack(EetController.SnackItem)">
+                <input type="text" ng-model="EetController.SnackItem" />
+                <button class="btn btn-danger" type="submit">Add</button>
             </form>
+            <ul>
+                <li ng-repeat="x in inputsSnack">{{x}}</li>
+            </ul>
             <p>How did you feel?</p>
             <select name="mySelect" id="mySelect"
                     ng-options="option for option in feelingSnack.availableOptions track by option"
                     ng-model="feelingSnack.selectedOption"></select>
-            <p><button ng-click="PostInputSnack()">Opslaan</button></p>
+
+            <p><br /><button class="btn btn-danger" ng-click="PostInputSnack()">Opslaan</button></p>
         </div>
 
         <button ng-click="GetDag()" value="Get Maaltijden">Get Maaltijden</button>
