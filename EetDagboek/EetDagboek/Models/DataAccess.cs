@@ -21,14 +21,6 @@ namespace EetDagboek.Models
             }
         }
 
-        public IMongoCollection<Day> Dag
-        {
-            get
-            {
-                return _database.GetCollection<Day>("Dag");
-            }
-        }
-
         public IMongoCollection<Maaltijd> Maaltijd
         {
             get

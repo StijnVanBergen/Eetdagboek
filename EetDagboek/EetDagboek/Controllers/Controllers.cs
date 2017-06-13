@@ -20,16 +20,25 @@ namespace EetDagboek.Controllers
         [HttpPost]
         public async void Post([FromBody]object value)
         {
-            Maaltijd meal = JsonConvert.DeserializeObject<Maaltijd>(value.ToString());
+            dynamic deserializedValue = JsonConvert.DeserializeObject(value.ToString());
+            var date = new DateTime(1970, 01, 01).AddMilliseconds((long)deserializedValue["Datum"]).Date;
 
-            await db.AddMaaltijd(meal);
+            Maaltijd myMeal = new Maaltijd()
+            {
+                Datum = date,
+                Gevoel = deserializedValue["Gevoel"],
+                Titel = deserializedValue["Titel"],
+                Voedsel = deserializedValue["Voedsel"].ToObject<List<string>>()
+            };
+            await db.AddMaaltijd(myMeal);
         }
 
         [HttpGet]
-        public string Get(long id)
+        public async Task<string> Get(long id)
         {
             DateTime day = new DateTime(1970, 01, 01).AddMilliseconds(id).Date;
-            return JsonConvert.SerializeObject(db.GetDay(day).Result);
+            var output = JsonConvert.SerializeObject(await db.GetMaaltijdenByDay(day));
+            return output;
         }
     }
 }

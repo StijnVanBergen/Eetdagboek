@@ -119,7 +119,7 @@
                     "Titel": "Breakfast",
                     "Voedsel": $scope.inputsBreakfast,
                     "Gevoel": $scope.feelingBreakfast.selectedOption,
-                    "Datum": $scope.datum
+                    "Datum": $scope.datum.getTime()
                 };
                 console.log("save");
                 eetdagboekservice.save(maaltijd);

@@ -8,7 +8,8 @@ namespace EetDagboek.Models
 {
     public interface IModelRepo
     {
-        Task<Day> GetDay(DateTime day);
         Task AddMaaltijd(Maaltijd maaltijd);
+
+        Task<List<Maaltijd>> GetMaaltijdenByDay(DateTime day);
     }
 }

@@ -7,22 +7,10 @@ using System.Web;
 
 namespace EetDagboek.Models
 {
-    public class Day
-    {
-        [BsonId]
-        public int ID { get; set; }
-
-        [BsonElement("Datum")]
-        public DateTime Datum { get; set; }
-
-        [BsonElement("Maaltijd")]
-        public List<Maaltijd> Maaltijden { get; set; }
-    }
-
     public class Maaltijd
     {
         [BsonId]
-        public int ID { get; set; }
+        public string ID { get; set; }
 
         [BsonElement("Titel")]
         public string Titel { get; set; }
@@ -32,5 +20,20 @@ namespace EetDagboek.Models
 
         [BsonElement("Gevoel")]
         public string Gevoel { get; set; }
+
+        [BsonElement("Datum")]
+        public DateTime Datum { get; set; }
+    }
+
+
+    public class DeSerializeMaaltijd
+    {
+        public string Titel { get; set; }
+
+        public List<string> Voedsel { get; set; }
+
+        public string Gevoel { get; set; }
+
+        public long Datum { get; set; }
     }
 }
