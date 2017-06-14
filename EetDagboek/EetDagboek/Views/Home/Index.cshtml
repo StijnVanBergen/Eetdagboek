@@ -34,9 +34,6 @@
 
             $scope.inputsBreakfast = [];
             $scope.moreInputsBreakfast = function (value) {
-                //$scope.myform.mytext.$setPristine();
-                //$scope.myform.MyText.$setPristine(true);
-                //$scope.MyText = '';
                 console.log(" input + 1");
                 $scope.inputsBreakfast.push(value);
                 $scope.EetController.BreakfastItem = '';
@@ -95,22 +92,22 @@
 
             $scope.feelingBreakfast = {
                 availableOptions: feeling,
-                selectedOption: feeling[0]
+                //selectedOption: feeling[0]
             };
 
             $scope.feelingLunch = {
                 availableOptions: feeling,
-                selectedOption: feeling[0]
+                //selectedOption: feeling[0]
             };
 
             $scope.feelingDiner = {
                 availableOptions:feeling,
-                selectedOption: feeling[0]
+                //selectedOption: feeling[0]
             };
 
             $scope.feelingSnack = {
                 availableOptions:feeling,
-                selectedOption: feeling[0]
+                //selectedOption: feeling[0]
             };
 
             $scope.PostInputBreakfast = function () {
@@ -128,16 +125,10 @@
 
             $scope.PostInputLunch = function () {
                 var maaltijd = {
-                    "Dag": dag,
                     "Titel": "Lunch",
                     "Voedsel": $scope.inputsLunch,
-                    "Gevoel": $scope.feelingLunch.selectedOption
-                };
-
-                var dag = {
-                    "Maaltijden": maaltijd.Voedsel,
-                    "Gevoel": $scope.feelingLunch.selectedOption.name,
-                    "datum": $scope.datum
+                    "Gevoel": $scope.feelingLunch.selectedOption,
+                    "datum": $scope.datum.getTime()
                 };
                 console.log("save");
                 eetdagboekservice.save(maaltijd);
@@ -146,16 +137,12 @@
 
             $scope.PostInputDiner = function () {
                 var maaltijd = {
-                    "Dag": dag,
                     "Titel": "Diner",
                     "Voedsel": $scope.inputsDiner,
-                    "Gevoel": $scope.feelingDiner.selectedOption
+                    "Gevoel": $scope.feelingDiner.selectedOption,
+                    "datum": $scope.datum.getTime()
                 };
-                var dag = {
-                    "Maaltijden": maaltijd.Voedsel,
-                    "Gevoel": $scope.feelingDiner.selectedOption.name,
-                    "datum": $scope.datum
-                };
+
                 console.log("save");
                 eetdagboekservice.save(maaltijd);
             }
@@ -163,16 +150,11 @@
 
             $scope.PostInputSnack = function () {
                 var maaltijd = {
-                    "Dag": dag,
                     "Maaltijd": "Snack",
                     "Voedsel": $scope.inputsSnack,
-                    "Gevoel": $scope.feelingSnack.selectedOption
+                    "Gevoel": $scope.feelingSnack.selectedOption,
+                    "datum": $scope.datum.getTime()
                 }
-                var dag = {
-                    "Maaltijden": maaltijd.Voedsel,
-                    "Gevoel": $scope.feelingSnack.selectedOption.name,
-                    "datum": $scope.datum
-                };
                 console.log("save");
                 eetdagboekservice.save(maaltijd);
             }
@@ -186,7 +168,32 @@
                 .then(function(data)
                 {
                     $scope.data = data;
-                    console.log(data)
+                    console.log(data);
+                    console.log(data.Titel);
+
+                    $scope.inputsBreakfast = [];
+                    $scope.inputsLunch = [];
+                    $scope.inputsDiner = [];
+                    $scope.inputsSnack = [];
+
+                    if (data.Titel == "Breakfast") {
+                        $scope.inputsBreakfast = data.Voedsel;
+                        $scope.feelingBreakfast.selectedOption.name = data.Gevoel;
+                    }
+
+                    if (data.Titel == "Lunch") {
+                        $scope.inputsLunch = data.Voedsel;
+                        $scope.feelingLunch.selectedOption.name = data.Gevoel;
+                    }
+                    if (data.Titel == "Diner") {
+                        $scope.inputsDiner = data.Voedsel;
+                        $scope.feelingDiner.selectedOption.name = data.Gevoel;
+                    }
+
+                    if (data.Titel == "Snack") {
+                        $scope.inputsSnack = data.Voedsel;
+                        $scope.feelingSnack.selectedOption.name = data.Gevoel;
+                    }
                 });
             }
 //
