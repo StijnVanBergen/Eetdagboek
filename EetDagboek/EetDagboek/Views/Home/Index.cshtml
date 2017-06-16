@@ -22,6 +22,9 @@
         app.controller("EetController", function($scope, eetdagboekservice, $http){
 
             $scope.datum = new Date();
+            $scope.showToday = true;
+            $scope.showYesterday = false;
+            $scope.showTomorrow = false;
 
 //            Breakfast
             $scope.GetInputBreakfast = function(){
@@ -34,9 +37,6 @@
 
             $scope.inputsBreakfast = [];
             $scope.moreInputsBreakfast = function (value) {
-                //$scope.myform.mytext.$setPristine();
-                //$scope.myform.MyText.$setPristine(true);
-                //$scope.MyText = '';
                 console.log(" input + 1");
                 $scope.inputsBreakfast.push(value);
                 $scope.EetController.BreakfastItem = '';
@@ -95,22 +95,22 @@
 
             $scope.feelingBreakfast = {
                 availableOptions: feeling,
-                selectedOption: feeling[0]
+                //selectedOption: feeling[0]
             };
 
             $scope.feelingLunch = {
                 availableOptions: feeling,
-                selectedOption: feeling[0]
+                //selectedOption: feeling[0]
             };
 
             $scope.feelingDiner = {
                 availableOptions:feeling,
-                selectedOption: feeling[0]
+                //selectedOption: feeling[0]
             };
 
             $scope.feelingSnack = {
                 availableOptions:feeling,
-                selectedOption: feeling[0]
+                //selectedOption: feeling[0]
             };
 
             $scope.PostInputBreakfast = function () {
@@ -128,16 +128,10 @@
 
             $scope.PostInputLunch = function () {
                 var maaltijd = {
-                    "Dag": dag,
                     "Titel": "Lunch",
                     "Voedsel": $scope.inputsLunch,
-                    "Gevoel": $scope.feelingLunch.selectedOption
-                };
-
-                var dag = {
-                    "Maaltijden": maaltijd.Voedsel,
-                    "Gevoel": $scope.feelingLunch.selectedOption.name,
-                    "datum": $scope.datum
+                    "Gevoel": $scope.feelingLunch.selectedOption,
+                    "datum": $scope.datum.getTime()
                 };
                 console.log("save");
                 eetdagboekservice.save(maaltijd);
@@ -146,16 +140,12 @@
 
             $scope.PostInputDiner = function () {
                 var maaltijd = {
-                    "Dag": dag,
                     "Titel": "Diner",
                     "Voedsel": $scope.inputsDiner,
-                    "Gevoel": $scope.feelingDiner.selectedOption
+                    "Gevoel": $scope.feelingDiner.selectedOption,
+                    "datum": $scope.datum.getTime()
                 };
-                var dag = {
-                    "Maaltijden": maaltijd.Voedsel,
-                    "Gevoel": $scope.feelingDiner.selectedOption.name,
-                    "datum": $scope.datum
-                };
+
                 console.log("save");
                 eetdagboekservice.save(maaltijd);
             }
@@ -163,19 +153,64 @@
 
             $scope.PostInputSnack = function () {
                 var maaltijd = {
-                    "Dag": dag,
                     "Maaltijd": "Snack",
                     "Voedsel": $scope.inputsSnack,
-                    "Gevoel": $scope.feelingSnack.selectedOption
+                    "Gevoel": $scope.feelingSnack.selectedOption,
+                    "datum": $scope.datum.getTime()
                 }
-                var dag = {
-                    "Maaltijden": maaltijd.Voedsel,
-                    "Gevoel": $scope.feelingSnack.selectedOption.name,
-                    "datum": $scope.datum
-                };
                 console.log("save");
                 eetdagboekservice.save(maaltijd);
             }
+
+            $scope.back = function () {
+                console.log("back gestart");
+
+                var yesterday = $scope.datum;
+                yesterday.setDate(yesterday.getDate() - 1);
+                console.log(yesterday);
+                $scope.yesterday = yesterday;
+                var vandaag = new Date();
+
+
+                console.log(yesterday.toLocaleDateString());
+                console.log(vandaag.toLocaleDateString());
+
+                if (yesterday.toLocaleDateString() == vandaag.toLocaleDateString()) {
+                    $scope.showToday = true;
+                    $scope.showYesterday = false;
+                    $scope.showTomorrow = false;
+                }
+                else {
+
+                    $scope.showToday = false;
+                    $scope.showYesterday = true;
+                    $scope.showTomorrow = false;
+                }
+
+
+            };
+
+            $scope.forward = function () {
+                console.log("back gestart");
+                var tomorrow = $scope.datum;
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                console.log(tomorrow);
+                $scope.tomorrow = tomorrow;
+                var vandaag = new Date();
+
+                if (tomorrow.toLocaleDateString() == vandaag.toLocaleDateString()) {
+                    $scope.showToday = true;
+                    $scope.showYesterday = false;
+                    $scope.showTomorrow = false;
+                }
+                else {
+
+                    $scope.showToday = false;
+                    $scope.showYesterday = false;
+                    $scope.showTomorrow = true;
+                }
+                //GetDag();
+            };
 
             
 
@@ -186,7 +221,32 @@
                 .then(function(data)
                 {
                     $scope.data = data;
-                    console.log(data)
+                    console.log(data);
+                    console.log(data.Titel);
+
+                    $scope.inputsBreakfast = [];
+                    $scope.inputsLunch = [];
+                    $scope.inputsDiner = [];
+                    $scope.inputsSnack = [];
+
+                    if (data.Titel == "Breakfast") {
+                        $scope.inputsBreakfast = data.Voedsel;
+                        $scope.feelingBreakfast.selectedOption.name = data.Gevoel;
+                    }
+
+                    if (data.Titel == "Lunch") {
+                        $scope.inputsLunch = data.Voedsel;
+                        $scope.feelingLunch.selectedOption.name = data.Gevoel;
+                    }
+                    if (data.Titel == "Diner") {
+                        $scope.inputsDiner = data.Voedsel;
+                        $scope.feelingDiner.selectedOption.name = data.Gevoel;
+                    }
+
+                    if (data.Titel == "Snack") {
+                        $scope.inputsSnack = data.Voedsel;
+                        $scope.feelingSnack.selectedOption.name = data.Gevoel;
+                    }
                 });
             }
 //
@@ -215,7 +275,19 @@
 
     <div ng-controller="EetController">
         <h1>Food Diary </h1>
-        <h2>Today: {{datum | date: fullDate}}</h2>
+        <h2><button ng-click="back()" type="button" class="btn btn-default" aria-label="arrow left">
+            <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+            </button>
+
+            <span ng-show="showToday">Today: {{datum | date: fullDate}}</span>
+            <span ng-show="showYesterday">Day: {{yesterday | date: fullDate}}</span>
+            <span ng-show="showTomorrow">Day: {{tomorrow | date: fullDate}}</span>
+
+
+            <button ng-click="forward()" type="button" class="btn btn-default" aria-label="arrow right">
+            <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+            </button>
+        </h2>
 
         <p><button class="btn btn-primary btn-lg" ng-click="GetInputBreakfast()">Breakfast</button> </p>
         <div class="col-md-offset-1" ng-show="visibleBreakfast">

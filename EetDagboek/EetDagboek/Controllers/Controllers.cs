@@ -21,7 +21,7 @@ namespace EetDagboek.Controllers
         public async void Post([FromBody]object value)
         {
             dynamic deserializedValue = JsonConvert.DeserializeObject(value.ToString());
-            var date = new DateTime(1970, 01, 01).AddMilliseconds((long)deserializedValue["Datum"]).Date;
+            var date = new DateTime(1970, 01, 01).AddMilliseconds((long)deserializedValue["datum"]).Date;
 
             Maaltijd myMeal = new Maaltijd()
             {
