@@ -162,18 +162,48 @@
                 eetdagboekservice.save(maaltijd);
             }
 
-            $scope.back = function () {
-                console.log("back gestart");
+            var GetDag = function(){
+                $scope.datumGet = $scope.datum.getTime();
 
+                $scope.inputsBreakfast = [];
+                $scope.inputsLunch = [];
+                $scope.inputsDiner = [];
+                $scope.inputsSnack = [];
+
+                $http.get("http://localhost:27017/api/Maaltijd/"+ $scope.datumGet)
+                .then(function(data)
+                {
+                    $scope.data = data;
+
+                    for (var i = 0; i < data.data.length; i++) {
+
+                        if (data.data[i].Titel == "Breakfast") {
+                            $scope.inputsBreakfast.push(data.data[i].Voedsel.toString());
+                            $scope.feelingBreakfast.selectedOption = data.data[i].Gevoel;
+                        }
+
+                        if (data.data[i].Titel == "Lunch") {
+                            $scope.inputsLunch.push(data.data[i].Voedsel);
+                            $scope.feelingLunch.selectedOption = data.data[i].Gevoel;
+                        }
+                        if (data.data[i].Titel == "Diner") {
+                            $scope.inputsDiner.push(data.data[i].Voedsel);
+                            $scope.feelingDiner.selectedOption = data.data[i].Gevoel;
+                        }
+
+                        if (data.data[i].Titel == "Snack") {
+                            $scope.inputsSnack.push(data.data[i].Voedsel);
+                            $scope.feelingSnack.selectedOption = data.data[i].Gevoel;
+                        }
+                    }
+                });
+            }
+
+            $scope.back = function () {
                 var yesterday = $scope.datum;
                 yesterday.setDate(yesterday.getDate() - 1);
-                console.log(yesterday);
                 $scope.yesterday = yesterday;
                 var vandaag = new Date();
-
-
-                console.log(yesterday.toLocaleDateString());
-                console.log(vandaag.toLocaleDateString());
 
                 if (yesterday.toLocaleDateString() == vandaag.toLocaleDateString()) {
                     $scope.showToday = true;
@@ -186,15 +216,13 @@
                     $scope.showYesterday = true;
                     $scope.showTomorrow = false;
                 }
-
+                GetDag();
 
             };
 
             $scope.forward = function () {
-                console.log("back gestart");
                 var tomorrow = $scope.datum;
                 tomorrow.setDate(tomorrow.getDate() + 1);
-                console.log(tomorrow);
                 $scope.tomorrow = tomorrow;
                 var vandaag = new Date();
 
@@ -209,46 +237,14 @@
                     $scope.showYesterday = false;
                     $scope.showTomorrow = true;
                 }
-                //GetDag();
+                GetDag();
             };
 
-            
-
-            $scope.GetDag = function(){
-                $scope.datumGet = $scope.datum.getTime();
-                console.log($scope.datumGet);
-                $http.get("http://localhost:27017/api/Maaltijd/"+ $scope.datumGet)
-                .then(function(data)
-                {
-                    $scope.data = data;
-                    console.log(data);
-                    console.log(data.Titel);
-
-                    $scope.inputsBreakfast = [];
-                    $scope.inputsLunch = [];
-                    $scope.inputsDiner = [];
-                    $scope.inputsSnack = [];
-
-                    if (data.Titel == "Breakfast") {
-                        $scope.inputsBreakfast = data.Voedsel;
-                        $scope.feelingBreakfast.selectedOption.name = data.Gevoel;
-                    }
-
-                    if (data.Titel == "Lunch") {
-                        $scope.inputsLunch = data.Voedsel;
-                        $scope.feelingLunch.selectedOption.name = data.Gevoel;
-                    }
-                    if (data.Titel == "Diner") {
-                        $scope.inputsDiner = data.Voedsel;
-                        $scope.feelingDiner.selectedOption.name = data.Gevoel;
-                    }
-
-                    if (data.Titel == "Snack") {
-                        $scope.inputsSnack = data.Voedsel;
-                        $scope.feelingSnack.selectedOption.name = data.Gevoel;
-                    }
-                });
+            var init = function () {
+                GetDag();
             }
+
+            init();
 //
 //           $scope.GetHotels = function(){
 //              $scope.data = hotelservice.query();
@@ -298,7 +294,7 @@
             </form>
 
             <ul>
-                <li ng-repeat="x in inputsBreakfast">{{x}}</li>
+                <li ng-repeat="x in inputsBreakfast track by $index">{{x}}</li>
             </ul>
 
             <p>How did you feel?</p>
@@ -317,7 +313,7 @@
                 <button class="btn btn-success" type="submit">Add</button>
             </form>
             <ul>
-                <li ng-repeat="x in inputsLunch">{{x}}</li>
+                <li ng-repeat="x in inputsLunch track by $index">{{x}}</li>
             </ul>
             <p>How did you feel?</p>
             <select name="mySelect" id="mySelect"
@@ -335,7 +331,7 @@
                     <button class="btn btn-warning" type="submit">Add</button>
                 </form>
             <ul>
-                <li ng-repeat="x in inputsDiner">{{x}}</li>
+                <li ng-repeat="x in inputsDiner track by $index">{{x}}</li>
             </ul>
             <p>How did you feel?</p>
             <select name="mySelect" id="mySelect"
@@ -352,7 +348,7 @@
                 <button class="btn btn-danger" type="submit">Add</button>
             </form>
             <ul>
-                <li ng-repeat="x in inputsSnack">{{x}}</li>
+                <li ng-repeat="x in inputsSnack track by $index">{{x}}</li>
             </ul>
             <p>How did you feel?</p>
             <select name="mySelect" id="mySelect"
@@ -361,9 +357,6 @@
 
             <p><br /><button class="btn btn-danger" ng-click="PostInputSnack()">Opslaan</button></p>
         </div>
-
-        <button ng-click="GetDag()" value="Get Maaltijden">Get Maaltijden</button>
-        {{data}}
     </div>
 
     

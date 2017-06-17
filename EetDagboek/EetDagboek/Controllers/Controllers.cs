@@ -34,10 +34,10 @@ namespace EetDagboek.Controllers
         }
 
         [HttpGet]
-        public async Task<string> Get(long id)
+        public async Task<List<Maaltijd>> Get(long id)
         {
             DateTime day = new DateTime(1970, 01, 02).AddMilliseconds(id).Date;
-            var output = JsonConvert.SerializeObject(await db.GetMaaltijdenByDay(day));
+            var output = await db.GetMaaltijdenByDay(day);
             return output;
         }
     }
