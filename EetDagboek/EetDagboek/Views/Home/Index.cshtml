@@ -131,7 +131,7 @@
                     "Titel": "Lunch",
                     "Voedsel": $scope.inputsLunch,
                     "Gevoel": $scope.feelingLunch.selectedOption,
-                    "datum": $scope.datum.getTime()
+                    "Datum": $scope.datum.getTime()
                 };
                 console.log("save");
                 eetdagboekservice.save(maaltijd);
@@ -143,7 +143,7 @@
                     "Titel": "Diner",
                     "Voedsel": $scope.inputsDiner,
                     "Gevoel": $scope.feelingDiner.selectedOption,
-                    "datum": $scope.datum.getTime()
+                    "Datum": $scope.datum.getTime()
                 };
 
                 console.log("save");
@@ -151,12 +151,12 @@
             }
 
 
-            $scope.PostInputSnack = function () {
+            $scope.PostInputSnack= function () {
                 var maaltijd = {
-                    "Maaltijd": "Snack",
+                    "Titel": "Snack",
                     "Voedsel": $scope.inputsSnack,
                     "Gevoel": $scope.feelingSnack.selectedOption,
-                    "datum": $scope.datum.getTime()
+                    "Datum": $scope.datum.getTime()
                 }
                 console.log("save");
                 eetdagboekservice.save(maaltijd);
@@ -183,16 +183,16 @@
                         }
 
                         if (data.data[i].Titel == "Lunch") {
-                            $scope.inputsLunch.push(data.data[i].Voedsel);
+                            $scope.inputsLunch.push(data.data[i].Voedsel.toString());
                             $scope.feelingLunch.selectedOption = data.data[i].Gevoel;
                         }
                         if (data.data[i].Titel == "Diner") {
-                            $scope.inputsDiner.push(data.data[i].Voedsel);
+                            $scope.inputsDiner.push(data.data[i].Voedsel.toString());
                             $scope.feelingDiner.selectedOption = data.data[i].Gevoel;
                         }
 
                         if (data.data[i].Titel == "Snack") {
-                            $scope.inputsSnack.push(data.data[i].Voedsel);
+                            $scope.inputsSnack.push(data.data[i].Voedsel.toString());
                             $scope.feelingSnack.selectedOption = data.data[i].Gevoel;
                         }
                     }
@@ -245,23 +245,7 @@
             }
 
             init();
-//
-//           $scope.GetHotels = function(){
-//              $scope.data = hotelservice.query();
-//           }
-//
-//           var hotel  = {
-//               "Name":"tom",
-//               "Country":"Engeland",
-//               "Price":333
-//           };
-//           $scope.PostHotel = function(){
-//                hotelservice.save({Name: 'ppp', Country: 'ttt',Price:333});
-//           }
-//
-//           $scope.GetHotelById = function(){
-//               $scope.data = hotelservice.get({hotel: 3});
-//           }
+
         });
 
     </script>
@@ -362,17 +346,5 @@
     
 
     <hr>
-
-
-    <!--
-       <div ng-controller="HotelController">
-           
-           <button ng-click="GetHotels()" value="Get Hotels">Get Hotels</button>
-           <br>
-           <button ng-click="PostHotel()" value="Post Hotels">Post Hotels</button>
-           <br>
-           <button ng-click="GetHotelById()" value="Post Hotels">Get hotel by id</button>
-       </div>
-    -->
 </body>
 </html>
