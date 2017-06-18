@@ -18,7 +18,7 @@ namespace EetDagboek.Controllers
         ModelRepo db = new ModelRepo();
 
         [HttpPost]
-        public async void Post([FromBody]object value)
+        public async Task Post([FromBody]object value)
         {
             dynamic deserializedValue = JsonConvert.DeserializeObject(value.ToString());
             var date = new DateTime(1970, 01, 02).AddMilliseconds((long)deserializedValue["Datum"]).Date;

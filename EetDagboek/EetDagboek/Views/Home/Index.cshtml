@@ -38,8 +38,10 @@
             $scope.inputsBreakfast = [];
             $scope.moreInputsBreakfast = function (value) {
                 console.log(" input + 1");
-                $scope.inputsBreakfast.push(value);
-                $scope.EetController.BreakfastItem = '';
+                if (!$scope.inputsBreakfast.includes(value)) {
+                    $scope.inputsBreakfast.push(value);
+                    $scope.EetController.BreakfastItem = '';
+                }
             };
 
             // Lunch
@@ -54,8 +56,10 @@
             $scope.inputsLunch = [];
             $scope.moreInputsLunch = function(value){
                 console.log(" input + 1");
-                $scope.inputsLunch.push(value);
-                $scope.EetController.LunchItem = '';
+                if (!$scope.inputsLunch.includes(value)) {
+                    $scope.inputsLunch.push(value);
+                    $scope.EetController.LunchItem = '';
+                }
             };
 
             // Diner
@@ -70,8 +74,10 @@
             $scope.inputsDiner = [];
             $scope.moreInputsDiner = function(value){
                 console.log(" input + 1");
-                $scope.inputsDiner.push(value);
-                $scope.EetController.DinerItem = '';
+                if (!$scope.inputsDiner.includes(value)) {
+                    $scope.inputsDiner.push(value);
+                    $scope.EetController.DinerItem = '';
+                }
             };
 
             // Snack
@@ -86,8 +92,10 @@
             $scope.inputsSnack = [];
             $scope.moreInputsSnack = function(value){
                 console.log(" input + 1");
-                $scope.inputsSnack.push(value);
-                $scope.EetController.SnackItem = '';
+                if (!$scope.inputsSnack.includes(value)) {
+                    $scope.inputsSnack.push(value);
+                    $scope.EetController.SnackItem = '';
+                }
             };
 
             // select feeling voor elk appart
@@ -178,21 +186,29 @@
                     for (var i = 0; i < data.data.length; i++) {
 
                         if (data.data[i].Titel == "Breakfast") {
-                            $scope.inputsBreakfast.push(data.data[i].Voedsel.toString());
+                            for (var j = 0; j < data.data[i].Voedsel.length; j++) {
+                                $scope.inputsBreakfast.push(data.data[i].Voedsel[j].toString());
+                            }
                             $scope.feelingBreakfast.selectedOption = data.data[i].Gevoel;
                         }
 
                         if (data.data[i].Titel == "Lunch") {
-                            $scope.inputsLunch.push(data.data[i].Voedsel.toString());
+                            for (var j = 0; j < data.data[i].Voedsel.length; j++) {
+                                $scope.inputsLunch.push(data.data[i].Voedsel[j].toString());
+                            }
                             $scope.feelingLunch.selectedOption = data.data[i].Gevoel;
                         }
                         if (data.data[i].Titel == "Diner") {
-                            $scope.inputsDiner.push(data.data[i].Voedsel.toString());
+                            for (var j = 0; j < data.data[i].Voedsel.length; j++) {
+                                $scope.inputsDiner.push(data.data[i].Voedsel[j].toString());
+                            }
                             $scope.feelingDiner.selectedOption = data.data[i].Gevoel;
                         }
 
                         if (data.data[i].Titel == "Snack") {
-                            $scope.inputsSnack.push(data.data[i].Voedsel.toString());
+                            for (var j = 0; j < data.data[i].Voedsel.length; j++) {
+                                $scope.inputsSnack.push(data.data[i].Voedsel[j].toString());
+                            }
                             $scope.feelingSnack.selectedOption = data.data[i].Gevoel;
                         }
                     }

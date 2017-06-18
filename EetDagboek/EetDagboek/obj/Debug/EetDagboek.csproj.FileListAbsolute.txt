@@ -109,7 +109,6 @@ C:\Users\CharlotteHendrik\Desktop\Eetdagboek1\EetDagboek\EetDagboek\bin\Antlr3.R
 C:\Users\CharlotteHendrik\Desktop\Eetdagboek1\EetDagboek\EetDagboek\obj\Debug\EetDagboek.csprojResolveAssemblyReference.cache
 C:\Users\CharlotteHendrik\Desktop\Eetdagboek1\EetDagboek\EetDagboek\obj\Debug\EetDagboek.dll
 C:\Users\CharlotteHendrik\Desktop\Eetdagboek1\EetDagboek\EetDagboek\obj\Debug\EetDagboek.pdb
-D:\School\PR5-project\EetDagboek\EetDagboek\obj\Debug\EetDagboek.csprojResolveAssemblyReference.cache
 C:\Users\CharlotteHendrik\Desktop\eetdagboek2\EetDagboek\EetDagboek\bin\roslyn\csc.exe
 C:\Users\CharlotteHendrik\Desktop\eetdagboek2\EetDagboek\EetDagboek\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
 C:\Users\CharlotteHendrik\Desktop\eetdagboek2\EetDagboek\EetDagboek\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
